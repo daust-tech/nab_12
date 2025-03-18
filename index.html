@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h1 { text-align: center; }
+        table { width: 80%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+
+    <h1>Book List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+            </tr>
+        </thead>
+        <tbody id="bookTable">
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchBooks() {
+            try {
+                const response = await fetch("http://localhost:5000/api/books");
+                const books = await response.json();
+
+                let tableContent = "";
+                books.forEach(book => {
+                    tableContent += `
+                        <tr>
+                            <td>${book.id}</td>
+                            <td>${book.title}</td>
+                            <td>${book.author}</td>
+                            <td>${book.year}</td>
+                        </tr>
+                    `;
+                });
+                document.getElementById("bookTable").innerHTML = tableContent;
+            } catch (error) {
+                console.error("Error fetching books:", error);
+            }
+        }
+
+        fetchBooks();
+    </script>
+
+</body>
+</html>
+
